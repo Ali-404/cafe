@@ -18,7 +18,7 @@ const Orders = ({navigation}) => {
             const userData = snapshot.val();
             setData(userData.orders)
           } else {
-            console.log('User not found in the database.');
+            console.log('User not found in `the database.');
           }
       })
   }, [])  
