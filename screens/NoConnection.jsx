@@ -2,10 +2,12 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import { Icon, Text } from 'react-native-paper';
 import colors from '../data/colors';
+import { StatusBar } from 'expo-status-bar';
 
 const NoConnection = () => {
     return (
         <View style={styles.container}>
+        <StatusBar style='dark' />
         <Icon source={'wifi-off'} size={180} color={colors.ex1}></Icon>
             <Text variant='headlineMedium' style={{color:colors.ex1}}>No Internet Connection !</Text>
         </View>
