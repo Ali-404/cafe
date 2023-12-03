@@ -7,7 +7,7 @@ import { addToBasket, removeFromBasket, selectBasketItems, selectBasketItemsById
 
 
 const TabsBottom = ({meals}) => {
-    console.log(meals)
+    
     return (
       <View style={styles.Nav}>
             <Text variant='titleMedium' style={{color:colors.primary}}>TOTAL: {(meals[0]?.count || 0) * meals[0]?.price || 0} Dhs</Text>

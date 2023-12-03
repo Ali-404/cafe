@@ -9,21 +9,19 @@ import { get, getDatabase, off, onValue, ref, set } from 'firebase/database';
 import { getUser } from '../../firebase/firebase';
 import { clearBasket, selectBasketItems } from '../../features/basketSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { reloadApp } from '../../data/usefull'
 
 const GetOrder = (props) => {
     const dispatch = useDispatch()
 
     const [name, setName] = useState('')
     const [adresse, setAdresse] = useState('')
-    const [city, setCity] = useState('')
+    const [city, setCity] = useState('Sale')
     const [phone, setPhone] = useState('')
 
     const [pressed, setPressed] = useState(false)
 
     const validName = () => name.length >= 3 
     const validAdresse = () => adresse.length >= 6 
-    const validCity = () => city.length >= 3 
     const validPhone = () => phone.length === 10 
 
     const meals = useSelector(selectBasketItems)
@@ -110,13 +108,7 @@ const GetOrder = (props) => {
                 <HelperText type="error" style={{fontSize:12}} visible={!validAdresse()}>
                     The Adresse Should have 6 caracters or more !
                 </HelperText>
-            <View style={styles.inputContainer}>
-                <Text variant='titleMedium' style={{color:colors.third}}>City</Text>
-                <TextInput onChangeText={setCity} defaultValue={city} style={styles.inputField}/>
-            </View>
-                <HelperText type="error" style={{fontSize:12}} visible={!validCity()}>
-                    The City Should have 3 caracters or more !
-                </HelperText>
+          
             <View style={styles.inputContainer}>
                 <Text variant='titleMedium' style={{color:colors.third}}>Phone</Text>
                 <TextInput onChangeText={setPhone} defaultValue={phone} keyboardType='number-pad' style={styles.inputField}/>
@@ -125,7 +117,7 @@ const GetOrder = (props) => {
                     The Phone Number Should have 10 numbers !
                 </HelperText>
 
-                {validName() && validAdresse() && validCity() && validPhone() && !pressed ?(
+                {validName() && validAdresse() && validPhone() && !pressed ?(
                     <Button  mode='elevated' onPress={() => ConfermOrder()} textColor={colors.primary} buttonColor={colors.secand} style={{marginVertical:20, width:'70%', padding:5}} >Conferm Order</Button>
             ) : (
                 <Button  mode='elevated' textColor={colors.primary} buttonColor={colors.secand} style={{opacity:0.3,marginVertical:20, width:'70%', padding:5}} >Conferm Order</Button>

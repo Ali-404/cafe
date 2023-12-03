@@ -217,9 +217,8 @@ const MoreData = ({order}) => {
 
       <View  style={{display:dataShown ? 'flex' : 'none',width:'90%',backgroundColor:colors.ex3,padding:15,borderRadius:5, justifyContent:'space-around', flexDirection:'row', flexWrap:'wrap', gap:10}}>
         <Text styles={{color:colors.primary}} variant='titleMedium'>Name: {order.senderData.name} </Text>
-        <Text styles={{color:colors.primary}} variant='titleMedium'>Name: {order.senderData.name} </Text>
+        
         <Text styles={{color:colors.primary}} variant='titleMedium'>Adresse: {order.senderData.adresse} </Text>
-        <Text styles={{color:colors.primary}} variant='titleMedium'>City: {order.senderData.city} </Text>
         <Text styles={{color:colors.primary}} variant='titleMedium'>Phone: {order.senderData.phone} </Text>
       </View>
       </>

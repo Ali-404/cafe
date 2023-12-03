@@ -6,7 +6,6 @@ import globalStyle from '../data/globalStyle';
 import { autoLogin } from '../firebase/firebase';
 
 
-
 const Splash = ({navigation}) => {
 
 

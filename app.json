@@ -15,14 +15,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ali404.cafe"
+      "package": "com.ali404.cafe",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,6 +35,9 @@
       "eas": {
         "projectId": "f51c0eed-e9d4-4160-aecc-f82cb7a8c633"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f51c0eed-e9d4-4160-aecc-f82cb7a8c633"
     }
   }
 }

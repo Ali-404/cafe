@@ -9,18 +9,20 @@ import { useEffect, useState } from 'react';
 
 
 
-const TabsBottom = ({navigation, orders}) => {
-
+const TabsBottom = ({navigation}) => {
+  const uploadedItems = useSelector(selectBasketItems)
   const [total, setTotal] = useState(0)
+  
   useEffect(() => {
-    orders?.map(order => {
-      if (typeof(order) == 'object'){
-        setTotal(total + (order.price * order.count))  
-      } 
-    })
-
-  },[])
-
+    let newTotal = 0;
+   
+    uploadedItems.forEach(item => {
+       newTotal += (item.price * item.count);
+    });
+   
+    setTotal(newTotal);
+   }, [uploadedItems])
+ 
     return (
       <View style={styles.Nav}>
             <Text variant='titleMedium' style={{color:colors.primary}}>TOTAL: {total} Dhs</Text>
@@ -39,7 +41,6 @@ const MyOrders = ({navigation}) => {
     
     const uploadedItems = useSelector(selectBasketItems)
 
-
     return (
         <View style={{flex:1, backgroundColor:colors.primary}}>
             <StatusBar style='light' />
@@ -50,6 +51,7 @@ const MyOrders = ({navigation}) => {
                   <Text variant='titleMedium' style={{textAlign:'center',color:colors.third}}>No Orders Yet!</Text>
                 )}
                 {uploadedItems && uploadedItems.map((item, key) => { 
+                  
                   return(
                   <TouchableOpacity key={key} onPress={() => navigation.navigate("Meal", {
                     img:urlFor(item.image).url(), 
@@ -69,7 +71,7 @@ const MyOrders = ({navigation}) => {
             </ScrollView>
 
               {uploadedItems && uploadedItems.length > 0 && (
-                <TabsBottom orders={uploadedItems} navigation={navigation} />
+                <TabsBottom  navigation={navigation} />
               )}
         </View>
     );

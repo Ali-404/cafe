@@ -11,16 +11,16 @@ import Account from './screens/Account';
 import Verification from './screens/Verification';
 // import Home from './screens/Home';
 import Main from './screens/Main';
-import { useEffect } from 'react';
-
-
-
+import { useEffect, useState } from 'react';
+import NetInfo from '@react-native-community/netinfo'
+import NoConnection from './screens/NoConnection'
 
 const Stack = createNativeStackNavigator()
 
 
 export default function App() {
   // remove back handler
+  const [connected, setConnected] = useState(false)
 
   useEffect(() => {
 
@@ -30,18 +30,25 @@ export default function App() {
       return true;
     };
 
+    const unsubscribeNET = NetInfo.addEventListener(state => {
+      console.log('Is connected?', state.isConnected);
+      setConnected(state.isConnected)
+    });
+  
+
    
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       backAction
     );
 
-    return () => backHandler.remove(); // Remove the event listener on component unmount
+    return () => {backHandler.remove();unsubscribeNET();} // Remove the event listener on component unmount
   }, []);
 
 
   return (
   <PaperProvider>
+  {connected ? (
     <NavigationContainer >
     
       <Provider store={store}>
@@ -53,6 +60,10 @@ export default function App() {
           </Stack.Navigator>
         </Provider>
     </NavigationContainer>
+  ) : (
+    <NoConnection />
+  )}
+    
   </PaperProvider>
   );
 }
