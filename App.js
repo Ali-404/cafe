@@ -50,13 +50,13 @@ export default function App() {
   <PaperProvider>
   {connected ? (
     <NavigationContainer >
-    
       <Provider store={store}>
-          <Stack.Navigator backBehavior='none' initialRouteName='Splash'  screenOptions={{headerShown:false, headerBackButtonMenuEnabled:false}}>
+          <Stack.Navigator  backBehavior='none' initialRouteName='Splash'  screenOptions={{headerShown:false,headerBackButtonMenuEnabled:false}}>
             <Stack.Screen  name='Splash' component={Splash} />
             <Stack.Screen name='Account' component={Account} />
             <Stack.Screen name='Verification' component={Verification} />
             <Stack.Screen name='Main' component={Main} />
+          
           </Stack.Navigator>
         </Provider>
     </NavigationContainer>

@@ -39,12 +39,18 @@ const GetOrder = (props) => {
            let senderData = {}
            if (!fromCafe){
             senderData = {
+                userUID:getUser().uid,
                 name: name,
                 adresse: adresse,
                 city: city,
                 phone: phone,
             }
             
+           }else 
+           {
+            senderData = {
+                userUID:name,
+            }
            }
             
 
@@ -132,9 +138,16 @@ const GetOrder = (props) => {
             <Text style={{textAlign:'left', fontSize:18, color:colors.third, paddingHorizontal:15}}>
             You can come to our cafe and take the order yourself
             </Text>
-
-         
-            <Button disabled={pressed} mode='elevated' onPress={() => {ConfermOrder(true)}} textColor={colors.primary} buttonColor={colors.secand} style={{marginVertical:20, width:'70%', padding:5}} >Take it from cafe</Button>
+            
+            <View style={[styles.inputContainer,{marginTop:25}]}>
+                <Text variant='titleMedium' style={{color:colors.third}}>Name</Text>
+                <TextInput onChangeText={setName} defaultValue={name} style={styles.inputField}/>
+            </View>
+                <HelperText type="error" style={{fontSize:12}} visible={!validName()}>
+                    The Name Should have 3 caracters or more !
+                </HelperText>
+            
+            <Button disabled={pressed || !validName()} mode='elevated' onPress={() => {ConfermOrder(true)}} textColor={colors.primary} buttonColor={colors.secand} style={{marginVertical:5, width:'70%', padding:5}} >Take it from cafe</Button>
             </ScrollView>
 
         </View>

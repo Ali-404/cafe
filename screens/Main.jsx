@@ -12,6 +12,8 @@ import MyOrders from './Home/MyOrders'
 import Orders from './Home/Orders'
 import GetOrder from './Home/GetOrder'
 import Manager from './Home/Manager'
+import Qr from './Home/Qr'
+
 
 
 const icons = {
@@ -29,6 +31,8 @@ const noNav = {
   "Orders": true,
   "GetOrder": true,
   "Manager": true,
+  "Qr": true,
+  
 }
 
 
@@ -69,15 +73,19 @@ export default function Main() {
     initialRouteName='Home'
     // tabBar={({navigation}) => {navigation.go}}
     >
-      <Stack.Screen  name='Profile' component={Profile} options={{headerShown:true, header:() => (<Header title="Account" />) }} />
+      <Stack.Screen   name='Profile' component={Profile} options={{headerShown:true, header:() => (<Header title="Account" />) }} />
       <Stack.Screen  name='Home' component={Home} />
       <Stack.Screen  name='Menu' component={Menu} options={{headerShown:true, header:() => (<Header title="Our Menu" />) }} />
       <Stack.Screen  name='Meal' component={Meal} options={{headerShown:true, header:() => (<Header />) }} />
       <Stack.Screen  name='MyOrders' component={MyOrders} options={{headerShown:true, header:() => (<Header title={'My Orders'} />) }} />
       <Stack.Screen  name='Orders' component={Orders} options={{headerShown:true, header:() => (<Header  />) }} />
-      <Stack.Screen  name='GetOrder' component={GetOrder} options={{headerShown:true, header:() => (<Header title={'Delevery'} />) }} />
+      <Stack.Screen   name='GetOrder' component={GetOrder} options={{headerShown:true, header:() => (<Header title={'Delevery'} />) }} />
       
       <Stack.Screen  name='Manager' component={Manager} options={{headerShown:true, header:() => (<Header title={'Orders Management'} />) }} />
+      <Stack.Screen  name='Qr' component={Qr} options={{headerShown:true, header:() => (<Header title={'Qr Code'} />) }} />
+
+
+     
 
     </Stack.Navigator>
   )

@@ -5,7 +5,6 @@ import colors from '../../data/colors';
 
 import {urlFor} from '../sanity'
 import { getDatabase, ref, get, onValue, set } from 'firebase/database';
-import { getUser} from '../../firebase/firebase'
 import { useEffect, useState } from 'react';
 import OrdersPopup from '../../components/OrdersPopup'
 
@@ -81,13 +80,13 @@ const TheCard = ({data, users,userID}) => {
     return (
       data.map((order,key) =>{
         // console.log(key)
-        if (!order.city)
+        if (!order.userUID)
         return(
         
         <ImageBackground key={key}  style={styles.container} resizeMode='repeat' imageStyle={{width:'100%'}} source={require('../../assets/images/ptrn.png')}>
           {
             Object.values(order).map((o,k) => {
-              if (o && typeof(o) == 'object' && !o.city  ){
+              if (o && typeof(o) == 'object' && !o.phone && !o.userUID   ){
                 var img = urlFor(o.image).url()
                 return(
                   <View key={k} style={styles.card}>
@@ -103,7 +102,7 @@ const TheCard = ({data, users,userID}) => {
           
             {/* Orders data */}
             
-            {order.senderData && order.senderData != []&& (
+            {order.senderData && order.senderData != []&& Object.keys(order.senderData).length > 1 && (
               <MoreData order={order} />
             )}
   
@@ -121,6 +120,16 @@ const TheCard = ({data, users,userID}) => {
 
 
             {/* <Button mode='elevated' buttonColor={colors.ex1} textColor={'black'} >Cancel Order</Button> */}
+            <Text variant='titleLarge' style={{
+              textAlign:'left',
+              alignSelf:'flex-start',
+              marginHorizontal:15,
+              color:colors.primary,
+              backgroundColor:colors.ex2,
+              borderRadius:15,
+              paddingHorizontal:15,
+              fontSize:15
+            }}>Order ID: {key}</Text>
   
           {/* zid 7ta la kan order state === wslek */}
           {(order.orderState === 0 || order.orderState === 3) && (

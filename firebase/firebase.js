@@ -55,8 +55,4 @@ const getUser = () => {
 };
 
 
-
-
-
-
 export { signInWithEmailAndPassword,sendEmailVerification,updateProfile,auth, signOut, autoLogin, LogOut,getUser,createUserWithEmailAndPassword };

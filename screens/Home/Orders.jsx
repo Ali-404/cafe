@@ -25,7 +25,9 @@ const Orders = ({navigation}) => {
      
 
 
-
+  const showQR = (orderID, order) => {
+     navigation.navigate("Qr", {orderID: orderID, name: order.senderData.userUID})
+  }
  
 
   const removeOrder = (order, orderID) => {
@@ -65,13 +67,14 @@ const Orders = ({navigation}) => {
                 {!data || data[0] == 'Item 1'  ?(
                   <Text variant='headlineSmall' style={{color:colors.third, textAlign:'center'}}>You don't have any orders yet.</Text>
                 ): data.map((order,key) =>{
-                  if (!order.city)
+                  console.log(order)
+                  if (!order.phone && !order.userUID)
                   return(
                   
                   <ImageBackground key={key}  style={styles.container} resizeMode='repeat' imageStyle={{width:'100%'}} source={require('../../assets/images/ptrn.png')}>
                     {
                       Object.values(order).map((o,k) => {
-                        if (o && typeof(o) == 'object' && !o.city  ){
+                        if (o && typeof(o) == 'object' && !o.phone && !o.userUID ){
                           var img = urlFor(o.image).url()
                           return(
                             <View key={k} style={styles.card}>
@@ -84,6 +87,7 @@ const Orders = ({navigation}) => {
                         )}
                       })
                     }
+
                     
 
                     <View style={{flexDirection:'row', width:'100%', alignItems:'center', justifyContent:'space-around'}}>
@@ -92,7 +96,21 @@ const Orders = ({navigation}) => {
                       {states[order.orderState][0]} 
                       </Button>
                     </View>
+                    <View style={{width:'100%',flexDirection:'row', alignItems:'center',justifyContent:'space-between'}}>
+                      <Text variant='titleLarge' style={{
+                            marginHorizontal:15,
+                            color:colors.primary,
+                            backgroundColor:colors.ex2,
+                            borderRadius:15,
+                            paddingHorizontal:15,
+                            fontSize:15
+                          }}>Order ID: {key}</Text>
+                          {!order.senderData.phone && (
+                            <IconButton icon={"qrcode"} size={40} onPress={() => showQR(key,order)} />
+                          )}
+                    </View>
                       {/* <Button mode='elevated' buttonColor={colors.ex1} textColor={'black'} >Cancel Order</Button> */}
+
 
                     {/* zid 7ta la kan order state === wslek */}
                     {(order.orderState === 0 || order.orderState === 3) && (
