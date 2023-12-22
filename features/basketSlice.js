@@ -12,11 +12,11 @@ export const basketSlice = createSlice({
     addToBasket: (state, action) => {
 
       let oldMealTable = state.items.find(i => i.meal === action.payload.meal)
-
       if (oldMealTable){
         // just modify old item count++
         oldMealTable.count++;
-        
+        oldMealTable.UserExtras = action.payload.UserExtras
+        console.log(oldMealTable.UserExtras)
 
       }else 
       {

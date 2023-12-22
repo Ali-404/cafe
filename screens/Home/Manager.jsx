@@ -102,8 +102,10 @@ const TheCard = ({data, users,userID}) => {
           
             {/* Orders data */}
             
-            {order.senderData && order.senderData != []&& Object.keys(order.senderData).length > 1 && (
+            {order.senderData && order.senderData != []&& Object.keys(order.senderData).length > 1 ? (
               <MoreData order={order} />
+            ) : (
+              <Text>Name: {order.senderData.userUID}</Text>
             )}
   
 

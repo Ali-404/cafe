@@ -14,6 +14,7 @@ import {  selectBasketItems } from '../features/basketSlice';
 const Home = ({navigation}) => {
 
     const [cards , setCards ] = useState(false)
+    
     const [randomCard, setRandomCard] = useState(false)
     const [searchText, setSearchText] = useState('')
 
@@ -25,18 +26,43 @@ const Home = ({navigation}) => {
         }).catch((err) => console.error(err))
     }, [])
 
+
+   
+
+
+
+
     useEffect(() => {
-        if (cards){
-            let randomID = Math.floor(Math.random() * cards.valueOf().length)
-            const card = cards[randomID]
-            if (card?.image){
-                setRandomCard(card)
-            }else 
-            {
-                
-                setRandomCard(cards[0])
+        let intervalId;
+
+        const loadRandomCard = () => {
+            if (cards){
+                let randomID = Math.floor(Math.random() * cards.valueOf().length)
+                const card = cards[randomID]
+                if (card?.image){
+                    // 7yd li out of stock !!
+                    setRandomCard(card)
+                }else 
+                {
+                    
+                    setRandomCard(cards[0])
+                }
             }
         }
+
+        const startInterval = () => {
+        intervalId = setInterval(loadRandomCard, 5000);
+        };
+
+        loadRandomCard()
+
+        // Start the interval
+        startInterval();
+
+        return () => {
+
+        clearInterval(intervalId);
+        };
     }, [cards])
 
 
@@ -105,9 +131,12 @@ const Home = ({navigation}) => {
                     <ScrollView horizontal={true} contentContainerStyle={{gap:15}} >
                         
                         {cards ? cards.map((meal, key) => {
-                            
+                            if (key > 9 ){
+                                //only 9s
+                                return
+                            }
                             if (meal.meal)
-                               return (<Card onPress={() => navigation.navigate("Meal",{meal: meal, img:urlFor(meal.image).url() })} key={key} customCardStyle={{minWidth:200,height:"60%"}} meal={{title: meal.meal, price:`${meal.price} Dhs`, img:urlFor(meal.image).url()}} />
+                               return (<Card onPress={() => navigation.navigate("Meal",{meal: meal, img:urlFor(meal.image).url() })} key={key} customCardStyle={{minWidth:200,height:"60%"}} meal={{title: meal.meal, price:`${meal.price} Dhs`,stock:meal.stock ,img:urlFor(meal.image).url()}} />
                             )
                             }) : (
                             <>

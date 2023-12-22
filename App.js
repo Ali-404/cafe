@@ -42,7 +42,10 @@ export default function App() {
       backAction
     );
 
-    return () => {backHandler.remove();unsubscribeNET();} // Remove the event listener on component unmount
+    return () => {
+      backHandler.remove()
+      unsubscribeNET();
+    } 
   }, []);
 
 

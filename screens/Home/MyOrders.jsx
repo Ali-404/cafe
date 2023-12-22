@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectBasketItems } from '../../features/basketSlice';
 import { urlFor } from '../../sanity';
 import { useEffect, useState } from 'react';
+import {getAddedPriceFromExtra} from '../../data/usefull'
 
 
 
@@ -15,9 +16,19 @@ const TabsBottom = ({navigation}) => {
   
   useEffect(() => {
     let newTotal = 0;
-   
+    let addedPrice = 0;
     uploadedItems.forEach(item => {
-       newTotal += (item.price * item.count);
+      const userExtras = item?.UserExtras || []
+      Object.keys(userExtras).map(ExtraName => {
+        const ExtraValue = userExtras[ExtraName]
+
+        const extraPrice = getAddedPriceFromExtra(item.extras,ExtraName, ExtraValue) || 0
+        addedPrice +=extraPrice || 0
+     
+      })
+
+       newTotal += ((item.price + addedPrice) * item.count );
+       addedPrice = 0
     });
    
     setTotal(newTotal);
@@ -37,7 +48,6 @@ const TabsBottom = ({navigation}) => {
 
 const MyOrders = ({navigation}) => {
     
-
     
     const uploadedItems = useSelector(selectBasketItems)
 
@@ -51,7 +61,7 @@ const MyOrders = ({navigation}) => {
                   <Text variant='titleMedium' style={{textAlign:'center',color:colors.third}}>No Orders Yet!</Text>
                 )}
                 {uploadedItems && uploadedItems.map((item, key) => { 
-                  
+                  let addedPrice = 0 
                   return(
                   <TouchableOpacity key={key} onPress={() => navigation.navigate("Meal", {
                     img:urlFor(item.image).url(), 
@@ -60,8 +70,16 @@ const MyOrders = ({navigation}) => {
                     <ImageBackground  style={styles.card} resizeMode='repeat' imageStyle={{width:'100%'}} source={require('../../assets/images/ptrn.png')}>
                         <Image style={styles.img} source={{uri:urlFor(item.image).url()}} resizeMode='contain' />
                         <Text variant='headlineSmall'  style={{maxWidth:'50%', textAlign:'center'}}>{item.meal} (x {item.count || 0})</Text>
-                      
-                        <Text numberOfLines={1}>{item.count * item.price} Dhs</Text>
+                        
+                        {item.extras && item.UserExtras && item.extras.map(extra => {
+
+                          addedPrice += getAddedPriceFromExtra(item.extras,extra.ExtraName, item.UserExtras[extra.ExtraName])  
+                          
+                          return (<></>)
+                        })}
+                        
+                        
+                        <Text numberOfLines={1}>{item.count * (item.price + addedPrice)} Dhs</Text>
                     </ImageBackground>
                     </TouchableOpacity>
                 )})}

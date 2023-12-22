@@ -47,4 +47,32 @@ function isStrongPassword(password) {
 
 
 
-export {isStrongPassword,isValidEmail, getUsernameFromEmail}
+  const getAddedPriceFromExtra = (extras,extraName, extraValue) => {
+
+    if (!extras || !extraName || !extraValue){
+      console.log("noooooo")
+      return
+    }
+    const targetExtraOriginal = extras ? extras.filter(ex => ex?.ExtraName === extraName) : [];
+
+    const extraValues = targetExtraOriginal[0]?.value || [];
+
+    if (Array.isArray(extraValue)){
+        // cas1: extraValue: array (select multiple)
+        const filtred = extraValues?.filter(e =>  extraValue.includes(e['ExtraValue']))
+        let price = 0
+        filtred?.map(v => {
+            price += v?.AddedPrice || 0
+        })
+        return price
+        
+    }else if (typeof(extraValue) == 'string') {
+        // cas1: extraValue: string (select only one)
+        const filtred = extraValues?.filter(e => e['ExtraValue'] === extraValue)
+
+        return filtred[0]?.AddedPrice
+
+    }
+}
+
+export {isStrongPassword,isValidEmail, getUsernameFromEmail,getAddedPriceFromExtra}
