@@ -5,6 +5,13 @@ export default defineType({
   title: 'Category',
   type: 'document',
   fields: [
+    
+    defineField({
+      name: 'meal',
+      title: 'Meal Name',
+      type: 'string',
+      validation: Rule => Rule.required()
+    }),
     defineField({
       name: 'stock',
       title: 'Stock',
@@ -16,12 +23,6 @@ export default defineType({
           { title: "Out Of Stock (-)", value: "OutOfStock" },
         ],
       },
-      validation: Rule => Rule.required()
-    }),
-    defineField({
-      name: 'meal',
-      title: 'Meal Name',
-      type: 'string',
       validation: Rule => Rule.required()
     }),
     defineField({

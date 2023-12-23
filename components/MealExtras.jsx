@@ -6,20 +6,41 @@ import { getAddedPriceFromExtra } from '../data/usefull';
 import { StatusBar } from 'expo-status-bar';
 
 const MealExtras = ({route}) => {
-    const {meal} = route?.params
-    let total = 0
-    let mealData = []
-    const userExtras = meal?.UserExtras
- 
     
-    Object.keys(userExtras).map(ExtraName => {
-        const ExtraValue = userExtras[ExtraName]
-        const addPrice = getAddedPriceFromExtra(meal.extras,ExtraName, ExtraValue) || 0
-        total = (total + addPrice)
-        if (!mealData.includes([ExtraName,[ExtraValue,addPrice]])){
-            mealData = [...mealData,[ExtraName,[ExtraValue,addPrice]]]
+    const {meal} = route?.params
+    const [total,setTotal] = useState(0)
+    const [mealData,setMealData] = useState([])    
+
+    const userExtras = meal?.UserExtras
+    
+
+    useEffect(() => {
+        setTotal(0);
+        setMealData([]);
+        if (userExtras) {
+          const updatedMealData = mealData.slice(); // Create a copy of mealData
+      
+          Object.keys(userExtras).forEach((ExtraName) => {
+            const ExtraValue = userExtras[ExtraName];
+            const addPrice = getAddedPriceFromExtra(meal.extras, ExtraName, ExtraValue) || 0;
+      
+            setTotal((prevTotal) => prevTotal + addPrice);
+      
+            const existingExtraIndex = updatedMealData.findIndex(
+              (item) => item && item[0] === ExtraName
+            );
+      
+            if (existingExtraIndex === -1) {
+              updatedMealData.push([ExtraName, [ExtraValue, addPrice]]);
+            } else {
+              updatedMealData[existingExtraIndex][1] = [ExtraValue, addPrice];
+            }
+          });
+      
+          setMealData(updatedMealData);
         }
-    })
+      }, [meal, userExtras]);
+
  
     
 
@@ -32,7 +53,7 @@ const MealExtras = ({route}) => {
                 <Text variant='headlineLarge' style={{color:colors.ex1}} >Extras:</Text>
 
                 {mealData?.map((extra,k) => {
-                        
+                        if (meal.extras.findIndex(ex => ex.ExtraName == [extra[0]]) !==-1 )
 
                     return (
                         <View key={k}>

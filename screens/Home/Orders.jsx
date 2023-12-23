@@ -67,7 +67,6 @@ const Orders = ({navigation}) => {
                 {!data || data[0] == 'Item 1'  ?(
                   <Text variant='headlineSmall' style={{color:colors.third, textAlign:'center'}}>You don't have any orders yet.</Text>
                 ): data.map((order,key) =>{
-                  console.log(order)
                   if (!order.phone && !order.userUID)
                   return(
                   
@@ -82,7 +81,7 @@ const Orders = ({navigation}) => {
                                 <View style={styles.intButtons}>
                                     <Text  style={{color:colors.secand, fontSize:18, textAlign:'center'}} >{o.count}</Text>
                                 </View>
-                                <Text numberOfLines={1}>{o.price * o.count} Dhs</Text>
+                                <IconButton icon={'book-information-variant'} containerColor={colors.ex1} onPress={() => navigation.navigate("Extras",{meal:o})}>Extras</IconButton>
                         </View>
                         )}
                       })
