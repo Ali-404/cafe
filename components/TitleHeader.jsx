@@ -25,7 +25,7 @@ const Header = ({title}) => {
                 justifyContent:'space-between',
                 gap:15,
             }}>
-                <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Icon source={'arrow-left'} size={28} color={colors.third} />
                 </TouchableOpacity>
                 <Text variant='headlineSmall' style={{color:colors.third, fontWeight:'bold'}}>{title || route.name || 'Untitled'}</Text>

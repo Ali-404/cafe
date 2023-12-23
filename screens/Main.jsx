@@ -13,6 +13,7 @@ import Orders from './Home/Orders'
 import GetOrder from './Home/GetOrder'
 import Manager from './Home/Manager'
 import Qr from './Home/Qr'
+import MealExtras from '../components/MealExtras'
 
 
 
@@ -32,6 +33,7 @@ const noNav = {
   "GetOrder": true,
   "Manager": true,
   "Qr": true,
+  "Extras": true,
   
 }
 
@@ -83,6 +85,7 @@ export default function Main() {
       
       <Stack.Screen  name='Manager' component={Manager} options={{headerShown:true, header:() => (<Header title={'Orders Management'} />) }} />
       <Stack.Screen  name='Qr' component={Qr} options={{headerShown:true, header:() => (<Header title={'Qr Code'} />) }} />
+      <Stack.Screen  name='Extras' component={MealExtras} options={{headerShown:true, header:() => (<Header title={'Order Meal Informations'} />) }} />
 
 
      

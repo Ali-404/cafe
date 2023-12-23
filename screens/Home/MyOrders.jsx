@@ -54,7 +54,6 @@ const MyOrders = ({navigation}) => {
     return (
         <View style={{flex:1, backgroundColor:colors.primary}}>
             <StatusBar style='light' />
-
             <ScrollView style={{maxHeight:'80%'}} contentContainerStyle={{flexGrow:1,gap:10,alignItems:'center', paddingVertical:15}}>
                 {/* card */}
                 {!uploadedItems || uploadedItems.length <= 0 && (

@@ -7,6 +7,7 @@ import {urlFor} from '../sanity'
 import { getDatabase, ref, get, onValue, set } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import OrdersPopup from '../../components/OrdersPopup'
+import { useNavigation } from '@react-navigation/native';
 
 const states = [['Not Accepted yet', "#a8a8a8"], ["Working On It ...", '#f7ce39'],[ "On Delevery", '#39e4f7'], ["Done", '#a5f739']]
 
@@ -69,7 +70,13 @@ const Manager = ({navigation}) => {
 
 const TheCard = ({data, users,userID}) => {
   const [visible, setVisible] = useState(false)
+  const navigation = useNavigation()
 
+
+  const showExtrasMenu = (o) => {
+    navigation.navigate("Extras",{meal:o})
+    
+  }
 
   if (!data || data[0] == 'Item 1'){
     return (
@@ -87,14 +94,15 @@ const TheCard = ({data, users,userID}) => {
           {
             Object.values(order).map((o,k) => {
               if (o && typeof(o) == 'object' && !o.phone && !o.userUID   ){
-                var img = urlFor(o.image).url()
                 return(
                   <View key={k} style={styles.card}>
                       <Text variant='headlineSmall'>{o.meal}</Text>
                       <View style={styles.intButtons}>
                           <Text  style={{color:colors.secand, fontSize:18, textAlign:'center'}} >{o.count}</Text>
                       </View>
-                      <Text numberOfLines={1}>{o.price * o.count} Dhs</Text>
+                     
+                      <IconButton icon={'book-information-variant'} containerColor={colors.ex1} onPress={() => showExtrasMenu(o)}>Extras</IconButton>
+                      
               </View>
               )}
             })
@@ -105,7 +113,11 @@ const TheCard = ({data, users,userID}) => {
             {order.senderData && order.senderData != []&& Object.keys(order.senderData).length > 1 ? (
               <MoreData order={order} />
             ) : (
+              <>
+              <Text variant='labelLarge'>Without Delevery</Text>
               <Text>Name: {order.senderData.userUID}</Text>
+
+              </>
             )}
   
 
@@ -133,7 +145,7 @@ const TheCard = ({data, users,userID}) => {
               fontSize:15
             }}>Order ID: {key}</Text>
   
-          {/* zid 7ta la kan order state === wslek */}
+          {/*  7ta la kan order state === wslek */}
           {(order.orderState === 0 || order.orderState === 3) && (
             
             <IconButton onPress={() => changeOrderData('deleteOrder', users, userID, key)} icon={'close'} iconColor={colors.ex1} style={{

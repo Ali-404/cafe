@@ -38,9 +38,9 @@ const Home = ({navigation}) => {
         const loadRandomCard = () => {
             if (cards){
                 let randomID = Math.floor(Math.random() * cards.valueOf().length)
-                const card = cards[randomID]
+                const card = cards.filter(crd => crd.stock == 'InStock')[randomID]
                 if (card?.image){
-                    // 7yd li out of stock !!
+                    // 7yd li out of stock !! filter l cards
                     setRandomCard(card)
                 }else 
                 {
@@ -143,6 +143,12 @@ const Home = ({navigation}) => {
                                 <Text>Loading ...</Text>
                             </>
                         )}
+                        {cards && cards.length > 0 && (
+                            <TouchableOpacity onPress={() => searchByName()} style={styles.MoreBtn} >
+                                <Icon size={35} source={'book-arrow-right'} />
+                                <Text variant='titleMedium'>Show More</Text>
+                            </TouchableOpacity>
+                        )}
                         
                         
                     </ScrollView>
@@ -204,6 +210,16 @@ const styles = StyleSheet.create({
     },
 
     // mini card
+
+    MoreBtn:{
+        minWidth:100,
+        height:'60%',
+        borderRadius:25,
+        backgroundColor:colors.secand,
+        padding:15,
+        alignItems:'center',
+        justifyContent:'center'
+    }
     
 
     

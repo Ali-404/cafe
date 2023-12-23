@@ -14,7 +14,7 @@ const Menu = ({navigation, route}) => {
     
     useEffect(() => {
         client.fetch('*').then((data) => {
-            setCards(data.valueOf())
+                setCards(data.valueOf().filter(crd => crd.stock == 'InStock'))
         }).catch((err) => console.error(err))
     }, [])
 
