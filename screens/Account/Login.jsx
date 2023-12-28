@@ -3,7 +3,8 @@ import { Button, HelperText } from 'react-native-paper';
 import colors from '../../data/colors';
 import globalStyle from '../../data/globalStyle' ;
 import { useState } from 'react';
-import { signInWithEmailAndPassword,auth, signOut } from '../../firebase/firebase';
+import { signInWithEmailAndPassword,auth, signOut, resetPass } from '../../firebase/firebase';
+import { isValidEmail } from '../../data/usefull';
 const styles = globalStyle
 
 
@@ -41,6 +42,19 @@ const signInWithEmail = async (email, password, navigation) => {
         signInWithEmail(email, password, navigation)    
     }
 
+    const PasswordForgot = (email) => {
+      try {
+        resetPass(email).then(() => {
+          alert("You will get an email to change your password.")
+        }).catch (err => {
+          alert("Error:\n " + err.error)
+          console.error(err)
+        })
+      }catch (err){
+        alert("We have an error:\n " + err.error)
+        console.error(err)
+      }
+    }
 
     return (
         <KeyboardAvoidingView  style={styles.form}>
@@ -59,6 +73,12 @@ const signInWithEmail = async (email, password, navigation) => {
             <Button onPress={() => signIn()}  buttonColor={colors.secand} style={styles.button} mode="elevated"  textColor={colors.primary}>
                 <Text style={{fontSize:20}}>Sign In</Text>
             </Button>
+            {email && isValidEmail(email) && (
+              <Button onPress={() => PasswordForgot()} mode='text' textColor={colors.secand} >
+                Forget Password? Reset it
+              </Button>
+              
+            )}
 
             <HelperText type="error" style={{fontSize:15}} visible={error}>
                     {error}

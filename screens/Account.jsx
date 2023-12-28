@@ -1,4 +1,4 @@
-import {View, StyleSheet, TouchableOpacity, Text, SafeAreaView, StatusBar, ImageBackground} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Text, SafeAreaView, StatusBar, ImageBackground, Image} from 'react-native';
 import colors from '../data/colors';
 import globalStyle from '../data/globalStyle';
 
@@ -24,8 +24,7 @@ const Account = ({navigation}) => {
             resizeMode='repeat' imageStyle={{opacity:0.3}}
             >
 
-            <Text style={[globalStyle.bigTitle]}>Ali Cafe</Text>
-            <Text style={globalStyle.paragraph}>Best ☕ In Morocco</Text>
+            <Text style={[{fontSize:50, marginTop:50, textAlign:'center', color:colors.secand}]}>Welcome </Text>
 
 
             {/* list */}

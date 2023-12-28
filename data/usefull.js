@@ -18,7 +18,7 @@ function isStrongPassword(password) {
   
     // Combine all criteria
     const isStrong =
-      hasMinimumLength && hasLowercase && hasUppercase && hasDigit && hasSpecialChar;
+      hasMinimumLength && hasLowercase && hasDigit && hasSpecialChar;
   
     return isStrong;
   }

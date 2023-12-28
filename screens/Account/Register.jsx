@@ -24,6 +24,12 @@ const Register = ({navigation}) => {
     const [theError, setTheError] = useState(false)
 
 
+    const clearFields = () => {
+        setEmail('')
+        setPassword('')
+        setRePassword('')
+    }
+
 
     const signUpWithEmail = async (email, password, navigation) => {
         try {
@@ -45,7 +51,9 @@ const Register = ({navigation}) => {
             // name
             await updateProfile(userCredential.user, {displayName: getUsernameFromEmail(email)})
             
-            
+            //clear fields
+            clearFields()
+
             navigation.navigate("Login")
             return true; // Return true if sign-up and verification were successful
         } catch (error) {
@@ -58,7 +66,7 @@ const Register = ({navigation}) => {
 
     
     var errIndice = 0
-    const errors = ['Invalid Email !', "Use a strong password contains 8 caracters and symbols and Capitals letters! Exemple: StrongPass123__ ", "Not matching the password!"]
+    const errors = ['Invalid Email !', "Use a strong password contains 8 caracters and symbols! Exemple: strongPass123__ ", "Not matching the password!"]
 
     const registerFunc = () => {
         setPressed(true)
@@ -112,18 +120,18 @@ const Register = ({navigation}) => {
                 )}
             </KeyboardAvoidingView>
 
-            {!emailError() && !passwordError() && !repasswordError() && !pressed && (
-                <Button
-
-                    onPress={() => registerFunc()}
-                    buttonColor={colors.secand}
-                    style={styles.button}
-                    mode="elevated"
-                    textColor={colors.primary}>
-                    <Text style={{fontSize:20}}>Sign Up</Text>
-                
-                </Button>
-            )}
+             
+            <Button
+         
+                onPress={() => !emailError() && !passwordError() && !repasswordError() && !pressed ? registerFunc() : alert("Please Check the errors !")} 
+                buttonColor={colors.secand}
+                style={[styles.button, !emailError() && !passwordError() && !repasswordError() && !pressed ? {opacity:1} : {opacity:0.5}]}
+                mode="elevated"
+                textColor={colors.primary}>
+                <Text style={{fontSize:20}}>Sign Up</Text>
+            
+            </Button>
+            
 
             {theError && (
                 <HelperText type="error" style={{fontSize:12}} visible={theError}>

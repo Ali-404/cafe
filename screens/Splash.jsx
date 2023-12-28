@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {View, StyleSheet, StatusBar, ImageBackground, Text} from 'react-native';
+import {View, StyleSheet, StatusBar, ImageBackground,Image, Text} from 'react-native';
 import colors from '../data/colors';
 import {Button} from 'react-native-paper'
 import globalStyle from '../data/globalStyle';
@@ -19,7 +19,7 @@ const Splash = ({navigation}) => {
         
         setTimeout(() => {if (!isAutoLogin){
             setBtnVisible(true)
-        }}, 2000)
+        }}, 2500)
       }, []);  
     return (
         <ImageBackground 
@@ -30,9 +30,12 @@ const Splash = ({navigation}) => {
             <StatusBar barStyle={'light-content'} backgroundColor={'transparent'} translucent={true} />
 
             
-
-            <Text style={globalStyle.bigTitle} >Ali Cafe</Text>
+            <Image  source={require('../assets/tt.jpg')} resizeMode='contain' style={globalStyle.mainLogo} />
+            
             <Text style={globalStyle.paragraph}>Best ☕ In Morocco</Text>
+
+
+            <Text style={[globalStyle.paragraph, {fontSize:15, position:'absolute', top:'95%', color:'gray'}]}>version 1.0</Text>
             
             {btnVisible && (
                 <Button onPress={() => navigation.navigate("Account")}  buttonColor={colors.secand} textColor={colors.primary} mode="elevated" style={styles.button}>Order Now</Button>

@@ -53,6 +53,12 @@ export default style = StyleSheet.create({
         marginTop:35,
         alignSelf:'center'
 
+    },
+
+    mainLogo:{
+        width:'50%',
+        height:'30%'
+        
     }
 })
 

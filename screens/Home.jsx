@@ -73,6 +73,10 @@ const Home = ({navigation}) => {
         navigation.navigate("Menu", {searchText: searchText || ''})
     }
 
+    const showMore = () => {
+        navigation.navigate("Menu", {searchText:''})
+    }
+
     return (
         <View style={[globalStyle.container, styles.container]}>
             <StatusBar barStyle={'light-content'} backgroundColor={'transparent'} translucent={true}  />
@@ -144,7 +148,7 @@ const Home = ({navigation}) => {
                             </>
                         )}
                         {cards && cards.length > 0 && (
-                            <TouchableOpacity onPress={() => searchByName()} style={styles.MoreBtn} >
+                            <TouchableOpacity onPress={() => showMore()} style={styles.MoreBtn} >
                                 <Icon size={35} source={'book-arrow-right'} />
                                 <Text variant='titleMedium'>Show More</Text>
                             </TouchableOpacity>

@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged, updateProfile } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,6 +26,9 @@ const auth = initializeAuth(firebaseApp, {
 
 // Firebase Authentication functions
 
+async function resetPass(email){
+  await sendPasswordResetEmail(auth,email)
+}
 
 // Auto-login function
 const autoLogin = (navigation) => {
@@ -55,4 +58,4 @@ const getUser = () => {
 };
 
 
-export { signInWithEmailAndPassword,sendEmailVerification,updateProfile,auth, signOut, autoLogin, LogOut,getUser,createUserWithEmailAndPassword };
+export { signInWithEmailAndPassword,sendEmailVerification,updateProfile,auth, signOut, autoLogin,resetPass, LogOut,getUser,createUserWithEmailAndPassword };
