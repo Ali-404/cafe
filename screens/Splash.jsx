@@ -32,7 +32,7 @@ const Splash = ({navigation}) => {
             
             <Image  source={require('../assets/tt.jpg')} resizeMode='contain' style={globalStyle.mainLogo} />
             
-            <Text style={globalStyle.paragraph}>Best ☕ In Morocco</Text>
+            <Text style={globalStyle.paragraph}>ittosti FOOD</Text>
 
 
             <Text style={[globalStyle.paragraph, {fontSize:15, position:'absolute', top:'95%', color:'gray'}]}>version 1.0</Text>
