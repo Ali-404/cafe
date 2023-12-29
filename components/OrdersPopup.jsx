@@ -7,7 +7,7 @@ import colors from '../data/colors';
 
 const OrdersPopup = ({visible,setVisible, states,action = (state, stateID) => false}) => {
    
-  
+    
     const showDialog = () => setVisible(true);
   
     const hideDialog = () => setVisible(false);

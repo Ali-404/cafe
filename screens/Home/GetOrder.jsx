@@ -9,6 +9,7 @@ import { get, getDatabase, off, onValue, ref, set } from 'firebase/database';
 import { getUser } from '../../firebase/firebase';
 import { clearBasket, selectBasketItems } from '../../features/basketSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import uuid from 'react-native-uuid'
 
 const GetOrder = (props) => {
     const dispatch = useDispatch()
@@ -40,6 +41,7 @@ const GetOrder = (props) => {
            if (!fromCafe){
             senderData = {
                 userUID:getUser().uid,
+                orderID:uuid.v4(),
                 name: name,
                 adresse: adresse,
                 city: city,
@@ -50,6 +52,7 @@ const GetOrder = (props) => {
            {
             senderData = {
                 userUID:name,
+                orderID:uuid.v4(),
             }
            }
             

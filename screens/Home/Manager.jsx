@@ -3,7 +3,6 @@ import {View, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, Image, 
 import { Button, Divider, Icon, IconButton, Menu, Modal, PaperProvider, Portal, Text } from 'react-native-paper';
 import colors from '../../data/colors';
 
-import {urlFor} from '../sanity'
 import { getDatabase, ref, get, onValue, set } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import OrdersPopup from '../../components/OrdersPopup'
@@ -70,6 +69,7 @@ const Manager = ({navigation}) => {
 
 const TheCard = ({data, users,userID}) => {
   const [visible, setVisible] = useState(false)
+  const [theState, setTheState] = useState([])
   const navigation = useNavigation()
 
 
@@ -86,10 +86,9 @@ const TheCard = ({data, users,userID}) => {
   }else {
     return (
       data.map((order,key) =>{
-        // console.log(key)
         if (!order.userUID)
         return(
-        
+          <>
         <ImageBackground key={key}  style={styles.container} resizeMode='repeat' imageStyle={{width:'100%'}} source={require('../../assets/images/ptrn.png')}>
           {
             Object.values(order).map((o,k) => {
@@ -110,7 +109,7 @@ const TheCard = ({data, users,userID}) => {
           
             {/* Orders data */}
             
-            {order.senderData && order.senderData != []&& Object.keys(order.senderData).length > 1 ? (
+            {order.senderData && order.senderData != []&& Object.keys(order.senderData).length > 2 ? (
               <MoreData order={order} />
             ) : (
               <>
@@ -124,31 +123,35 @@ const TheCard = ({data, users,userID}) => {
           <View style={{flexDirection:'row', width:'100%', alignItems:'center', justifyContent:'space-around'}}>
 
             <Text variant='labelLarge'>Order State: </Text>
-            <Button mode='contained' onPress={() => setVisible(!visible)} buttonColor={states[order.orderState][1]}>
+            <Button mode='contained' onPress={() => {
+              
+              setTheState([users,userID, order.senderData.orderID])
+              setVisible(!visible)}
+              
+              } buttonColor={states[order.orderState][1]}>
             {states[order.orderState][0]}</Button>
           </View>
-
-          <OrdersPopup states={states} action={(state, stateID) => changeOrderData("orderState", users,userID, key,stateID)} setVisible={setVisible} visible={visible} />
+            
+          
             
               
 
 
             {/* <Button mode='elevated' buttonColor={colors.ex1} textColor={'black'} >Cancel Order</Button> */}
-            <Text variant='titleLarge' style={{
-              textAlign:'left',
-              alignSelf:'flex-start',
+            <Text variant='titleLarge' numberOfLines={2} style={{
+              textAlign:'center',
               marginHorizontal:15,
               color:colors.primary,
               backgroundColor:colors.ex2,
               borderRadius:15,
               paddingHorizontal:15,
               fontSize:15
-            }}>Order ID: {key}</Text>
+            }}>Order ID: {order.senderData.orderID}</Text>
   
           {/*  7ta la kan order state === wslek */}
           {(order.orderState === 0 || order.orderState === 3) && (
             
-            <IconButton onPress={() => changeOrderData('deleteOrder', users, userID, key)} icon={'close'} iconColor={colors.ex1} style={{
+            <IconButton onPress={() => changeOrderData('deleteOrder', users, userID, order.senderData.orderID)} icon={'close'} iconColor={colors.ex1} style={{
               position:'absolute',
               top:-5,
               left:'85%',
@@ -157,6 +160,9 @@ const TheCard = ({data, users,userID}) => {
           )}
   
         </ImageBackground>
+
+        <OrdersPopup states={states} action={(state, stateID) => {changeOrderData("orderState", theState[0],theState[1], theState[2],stateID);setTheState([])}} setVisible={setVisible} visible={visible} />
+    </>
       )})
     )
   }
@@ -166,7 +172,8 @@ const TheCard = ({data, users,userID}) => {
 
 const changeOrderData = (dataType,users, userID, orderID, newOrderState = 0) => {
 
-
+  console.log("==============")
+  console.log(orderID)
   // change Order State
   // Delete Order
 
@@ -187,18 +194,19 @@ const changeOrderData = (dataType,users, userID, orderID, newOrderState = 0) => 
         if (orders) {
 
           if (dataType == 'orderState'){
-            
             const ordersArray = Object.values(orders)
-            const targetOrder = ordersArray[orderID]
-            if (targetOrder){
-              targetOrder.orderState = newOrderState
+            
+            const targetOrder = ordersArray.findIndex(order => order.senderData.orderID == orderID)
+            
+            if (targetOrder != -1){
+              ordersArray[targetOrder].orderState = newOrderState
               set(ordersRef, orders)
             }else {
               console.warn("Unable to find order with this id !")
             }
 
           }else if (dataType == 'deleteOrder'){
-            let newOrders = orders.filter((order,id) => id != orderID)
+            let newOrders = orders.filter((order) => order.senderData.orderID != orderID)
             if (newOrders.length <= 0){
               newOrders = ["Item 1"]
             }

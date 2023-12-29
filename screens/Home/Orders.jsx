@@ -37,7 +37,7 @@ const Orders = ({navigation}) => {
       if (snapshot.exists()) {
         const userData = snapshot.val();
         const orders = userData.orders
-        let newOrdersTable = orders.filter((el, key) => key !== orderID)
+        let newOrdersTable = orders.filter((el) => el.senderData.orderId != orderID)
         if (newOrdersTable.length == 0){
           newOrdersTable[0] = ['Item 1']
         }
@@ -96,16 +96,18 @@ const Orders = ({navigation}) => {
                       </Button>
                     </View>
                     <View style={{width:'100%',flexDirection:'row', alignItems:'center',justifyContent:'space-between'}}>
-                      <Text variant='titleLarge' style={{
-                            marginHorizontal:15,
-                            color:colors.primary,
-                            backgroundColor:colors.ex2,
-                            borderRadius:15,
-                            paddingHorizontal:15,
-                            fontSize:15
-                          }}>Order ID: {key}</Text>
+                    <Text variant='titleLarge' numberOfLines={2} style={{
+                      textAlign:'center',
+                      marginHorizontal:15,
+                      color:colors.primary,
+                      backgroundColor:colors.ex2,
+                      borderRadius:15,
+                      paddingHorizontal:15,
+                      fontSize:15,
+                      maxWidth:'60%',
+                    }}>Order ID: {order.senderData.orderID}</Text>
                           {!order.senderData.phone && (
-                            <IconButton icon={"qrcode"} size={40} onPress={() => showQR(key,order)} />
+                            <IconButton icon={"qrcode"} size={40} onPress={() => showQR(order.senderData.orderID,order)} />
                           )}
                     </View>
                       {/* <Button mode='elevated' buttonColor={colors.ex1} textColor={'black'} >Cancel Order</Button> */}
@@ -114,7 +116,7 @@ const Orders = ({navigation}) => {
                     {/* zid 7ta la kan order state === wslek */}
                     {(order.orderState === 0 || order.orderState === 3) && (
                       
-                      <IconButton onPress={() => removeOrder(order, key)} icon={'close'} iconColor={colors.ex1} style={{
+                      <IconButton onPress={() => removeOrder(order, order.senderData.orderId)} icon={'close'} iconColor={colors.ex1} style={{
                         position:'absolute',
                         top:-5,
                         left:'85%',
